@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+
+struct File {
+    char name[20];
+};
+
+struct Directory {
+    char user[20];
+    struct File files[10];
+    int fileCount;
+};
+
+int main() {
+    struct Directory dirs[2] = {{"user1", {}, 0}, {"user2", {}, 0}};
+    int choice;
+    char uname[20], fname[20];
+
+    while (1) {
+        printf("1.Create 2.Display 3.Search 4.Exit: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Enter user: ");
+                scanf("%s", uname);
+                for (int i = 0; i < 2; i++) {
+                    if (strcmp(dirs[i].user, uname) == 0) {
+                        printf("Enter filename: ");
+                        scanf("%s", fname);
+                        strcpy(dirs[i].files[dirs[i].fileCount++].name, fname);
+                    }
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 2; i++) {
+                    printf("User: %s\n", dirs[i].user);
+                    for (int j = 0; j < dirs[i].fileCount; j++)
+                        printf("  File: %s\n", dirs[i].files[j].name);
+                }
+                break;
+            case 3:
+                printf("Enter user and file: ");
+                scanf("%s %s", uname, fname);
+                for (int i = 0; i < 2; i++) {
+                    if (strcmp(dirs[i].user, uname) == 0) {
+                        for (int j = 0; j < dirs[i].fileCount; j++) {
+                            if (strcmp(dirs[i].files[j].name, fname) == 0)
+                                printf("File found.\n");
+                        }
+                    }
+                }
+                break;
+            case 4: return 0;
+        }
+    }
+}
+
